@@ -1,0 +1,25 @@
+{
+  "name": "caps",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --verbose --coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yenxiongyuan/caps.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yenxiongyuan/caps/issues"
+  },
+  "homepage": "https://github.com/yenxiongyuan/caps#readme",
+  "dependencies": {
+    "chance": "^1.1.10",
+    "eslint": "^8.35.0",
+    "jest": "^29.4.3"
+  }
+}
