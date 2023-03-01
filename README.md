@@ -1,5 +1,5 @@
 
-# LAB - Class 11
+# LAB - Class 12
 
 ## Project: The Code Academy Parcel Service (CAPS)
 
