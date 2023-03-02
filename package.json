@@ -2,8 +2,9 @@
   "name": "caps",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "hub.js",
   "scripts": {
+    "start": "node hub.js",
     "test": "jest --verbose --coverage"
   },
   "repository": {
@@ -20,6 +21,7 @@
   "dependencies": {
     "chance": "^1.1.10",
     "eslint": "^8.35.0",
+    "express": "^4.18.2",
     "jest": "^29.4.3"
   }
 }
