@@ -1,37 +1,21 @@
 'use strict';
-//driver
 
-const eventPool = require('../eventPool.js');
+const { io } = require('socket.io-client'); //socket client
+const socket = io('http://localhost:3001/caps');
 
-
-// Listens for a pickup event from the Global Event Pool and responds with the following:
-eventPool.on('PICKUP', pickupAndDeliver);
-
-
-function pickupAndDeliver(payload) {
+// As a driver, I want to be notified when there is a package to be delivered.
+//socket.on('PICKUP') listen to the PICKUP
+socket.on('PICKUP', (payload) => {
   setTimeout(() => {
-    pickup(payload);
+    // As a driver, I want to alert the system when I have picked up a package and it is in transit.
+    console.log('DRIVER: picked up package.');
+    socket.emit('IN-TRANSIT', payload);
   }, 1000);
-
   setTimeout(() => {
-    delivery(payload);
+    // As a driver, I want to alert the system when a package has been delivered.
+    console.log('DRIVER: package has been delivered');
+    socket.emit('DELIVERY', payload);
   }, 2000);
+});
 
-}
 
-function pickup(payload) {
-  // Log a message to the console: DRIVER: picked up <ORDER_ID>.
-  console.log(`DRIVER: picked up: ${payload.orderId}`);
-  // Emit an in-transit event to the Global Event Pool with the order payload.
-  eventPool.emit('IN-TRANSIT', payload);
-}
-
-function delivery(payload) {
-  // Log a confirmation message to the console: DRIVER: delivered <ORDER_ID>.
-  console.log(`DRIVER: delivered ${payload.orderId}`);
-  // Emit a delivered event to the Global Event Pool with the order payload.
-  eventPool.emit('DELIVERY', payload);
-
-}
-
-module.exports = { pickup, delivery };

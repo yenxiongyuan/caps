@@ -1,27 +1,20 @@
 'use strict';
 
-const eventPool = require('../eventPool.js');
-const { createPackage, thankDriver } = require('./handler');
+const { io } = require('socket.io-client'); //socket client
+const { generateOrder, thankDriver } = require('./handlers');
 
-//Listens for a delivered event
-// can be an anonymous callback, or a named callback
-// eventPool.on('DELIVERY', () => {
-//   setTimeout(() => {
-//     // having this function extract4d is important for testing
-//     thankDriver();
-//   }, 1000);
-// });
-eventPool.on('DELIVERY', confirmDelivery);
+const socket = io('http://localhost:3001/caps'); // http://localhost:3001/caps(nameSpace)
 
-// responds by logging a message to the console:
-function confirmDelivery() {
-  setTimeout(() => {
-    thankDriver();
-  }, 1000);
-}
+// socket is one of the socket to the /caps(nameSpace)
+socket.on('DELIVERY', (payload) => {
+  thankDriver(payload);
+});
 
-// gets the event cycle started
 setInterval(() => {
-  // createPackage();
-  eventPool.emit("PICKUP", createPackage());
+  generateOrder(socket);
 }, 5000);
+
+
+
+
+
