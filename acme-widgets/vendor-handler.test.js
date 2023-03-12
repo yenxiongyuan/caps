@@ -1,9 +1,10 @@
 'use strict';
 
-const socket = require('../driver/socket');
+const socket = require('./socket');
 const { generateOrder, thankDriver } = require('./handlers');
 
-jest.mock("../driver/socket", () => {
+
+jest.mock('./socket', () => {
   return {
     on: jest.fn(),
     emit: jest.fn(),
@@ -12,12 +13,22 @@ jest.mock("../driver/socket", () => {
 console.log = jest.fn();
 
 describe('Vendor', () => {
-  let payload = {
-    store: '1-206-flowers',
-    orderId: '6789',
-    customer: 'Alex',
-    address: 'House',
+
+  let order = {
+    store: 'acme-widgets',
+    id: 'acme-widgets',
+    customer: 'acme-widgets',
+    address: 'acme-widgets',
   };
+
+  let payload = {
+    event: 'PICKUP',
+    messageID: 'jjhhkjkhj',
+    queueId: 'acme-widgets',
+    order,
+  };
+ 
+
   it('emits an order as expected', () => {
     generateOrder(socket, payload);
     expect(console.log).toHaveBeenCalledWith('VENDOR: order ready for pickup.');
@@ -26,7 +37,9 @@ describe('Vendor', () => {
 
   it('thanks driver', () => {
     thankDriver(payload);
-    expect(console.log).toHaveBeenCalledWith('Thanks for delivery the package to', payload.customer);
-
+    expect(console.log).toHaveBeenCalledWith(
+      'Thanks for delivery the package',
+      payload.order.customer,
+    );
   });
 });
